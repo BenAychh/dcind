@@ -1,10 +1,14 @@
 # dcind (Docker-Compose-in-Docker)
 
-[![](https://images.microbadger.com/badges/image/amidos/dcind.svg)](http://microbadger.com/images/amidos/dcind "Get your own image badge on microbadger.com")
+Forked from the excellent work my meAmidos at https://github.com/meAmidos/dcind
 
-Use this ```Dockerfile``` to build a base image for your integration tests in [Concourse CI](http://concourse.ci/). Alternatively, you can use a ready-to-use image from Docker Hub: [amidos/dcind](https://hub.docker.com/r/amidos/dcind/).
+Big changes here is that the docker file is now based on `docker:dind` and the startup docker-lib.sh startup script has a different way of starting the docker daemon based on the concourse docker-image-resource here: https://github.com/concourse/docker-image-resource/blob/master/assets/common.sh#L64
 
-Here is an example of Concourse [job](http://concourse.ci/concepts.html) that uses ```amidos/dcind``` image to run a bunch of containers in a task, and then runs the integration test suite. You can find the full example in the ```example``` directory.
+
+
+Use this ```Dockerfile``` to build a base image for your integration tests in [Concourse CI](http://concourse.ci/). Alternatively, you can use a ready-to-use image from Docker Hub: [benaychh/concourse-dcind](https://hub.docker.com/u/benaychh/concourse-dcind/).
+
+Here is an example of Concourse [job](http://concourse.ci/concepts.html) that uses ```benaychh/concourse-dcind``` image to run a bunch of containers in a task, and then runs the integration test suite.
 
 ```yaml
   - name: integration
@@ -25,7 +29,7 @@ Here is an example of Concourse [job](http://concourse.ci/concepts.html) that us
           image_resource:
             type: docker-image
             source:
-              repository: amidos/dcind
+              repository: benaychh/concourse-dcind
           inputs:
             - name: code
             - name: redis
@@ -54,12 +58,6 @@ Here is an example of Concourse [job](http://concourse.ci/concepts.html) that us
 
                 # Run the tests container and its dependencies.
                 docker-compose -f code/example/integration.yml run tests
-
-                # Cleanup.
-                # Not sure that this is required.
-                # It's quite possible that Concourse is smart enough to clean up the Docker mess itself.
-                docker-compose -f code/example/integration.yml down
-                docker volume rm $(docker volume ls -q)
 
 
 ```
