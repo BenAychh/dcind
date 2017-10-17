@@ -4,8 +4,6 @@ Forked from the excellent work my meAmidos at https://github.com/meAmidos/dcind
 
 Big changes here is that the docker file is now based on `docker:dind` and the startup docker-lib.sh startup script has a different way of starting the docker daemon based on the concourse docker-image-resource here: https://github.com/concourse/docker-image-resource/blob/master/assets/common.sh#L64
 
-
-
 Use this ```Dockerfile``` to build a base image for your integration tests in [Concourse CI](http://concourse.ci/). Alternatively, you can use a ready-to-use image from Docker Hub: [benaychh/concourse-dcind](https://hub.docker.com/u/benaychh/concourse-dcind/).
 
 Here is an example of Concourse [job](http://concourse.ci/concepts.html) that uses ```benaychh/concourse-dcind``` image to run a bunch of containers in a task, and then runs the integration test suite.
